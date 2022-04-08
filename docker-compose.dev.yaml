@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  app:
+    image: app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: base
+    stdin_open: true
+    tty: true
+    environment:
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true
+
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app
+
+    expose:
+      - '3000'
+
+    ports:
+      - '3000:3000'
+    command: yarn run dev
